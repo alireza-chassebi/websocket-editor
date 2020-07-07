@@ -6,10 +6,6 @@ export const App = () => {
   return (
     <div style={style}>
       <SyncingEditor />
-      <br />
-      <SyncingEditor />
-      <br />
-      <SyncingEditor />
     </div>
   );
 };

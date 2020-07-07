@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Editor } from 'slate-react';
 import initialValue from '../util/initialValue';
-import Mitt from 'mitt';
+import io from 'socket.io-client';
 
+const socket = io('http://localhost:4000');
+
+// example provdided by slate.js for syncing editors
 // https://github.com/ianstormtaylor/slate/blob/v0.47/examples/syncing-operations/index.js line 236
-
-const emitter = new Mitt();
 
 export const SyncingEditor = () => {
   const [value, setValue] = useState(initialValue);
@@ -15,13 +16,13 @@ export const SyncingEditor = () => {
   const remote = useRef(false);
 
   useEffect(() => {
-    // listen for all emitted events
-    emitter.on('*', (changedEditorId, ops) => {
+    // listen for new-remote-operations event from server and apply changes to other editors
+    socket.on('new-remote-operations', ({ changedEditorId, ops }) => {
       if (id.current !== changedEditorId) {
-        // needed to prevent onChange event from emitting another operation event when applyOperation is called
+        // needed to prevent onChange event from emitting another operations event when applyOperation is called
         remote.current = true;
         // copy changes from changed editor
-        ops.forEach((op) => editor.current.applyOperation(op));
+        JSON.parse(ops).forEach((op) => editor.current.applyOperation(op));
         remote.current = false;
       }
     });
@@ -48,9 +49,12 @@ export const SyncingEditor = () => {
           .toJS() // deep copy of array
           .map((o) => ({ ...o, data: { source: 'one' } }));
 
-        //emit event
+        //emit event to server
         if (ops.length && !remote.current) {
-          emitter.emit(id.current, ops);
+          socket.emit('new-operations', {
+            changedEditorId: id.current,
+            ops: JSON.stringify(ops),
+          });
         }
       }}
     />
