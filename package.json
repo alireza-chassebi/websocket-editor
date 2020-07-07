@@ -11,8 +11,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
-    "slate": "^0.58.3",
-    "slate-react": "^0.58.3"
+    "slate": "^0.47.3",
+    "slate-react": "^0.22.3"
   },
   "scripts": {
     "serve": "node server.js",

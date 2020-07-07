@@ -1,27 +1,31 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { createEditor } from 'slate';
-import { Slate, Editable, withReact } from 'slate-react';
+// Import React!
+import React, { useState } from 'react';
+import { Editor } from 'slate-react';
+import { Value } from 'slate';
 
-import './App.css';
+// https://github.com/ianstormtaylor/slate/blob/v0.47/examples/syncing-operations/index.js
 
-const App = () => {
-  // Create a Slate editor object that won't change across renders.
-  const editor = useMemo(() => withReact(createEditor()), []);
-  // Keep track of state for the value of the editor.
-  const [value, setValue] = useState([
-    {
-      type: 'paragraph',
-      children: [{ text: 'Replace Text :)' }],
-    },
-  ]);
+const initialValue = Value.fromJSON({
+  document: {
+    nodes: [
+      {
+        object: 'block',
+        type: 'paragraph',
+        nodes: [
+          {
+            object: 'text',
+            text: 'A line of text in a paragraph.',
+          },
+        ],
+      },
+    ],
+  },
+});
+
+export const App = () => {
+  const [value, setValue] = useState(initialValue);
+
   return (
-    // slate context provider for children components
-    <Slate
-      editor={editor}
-      value={value}
-      onChange={(newValue) => setValue(newValue)}>
-      <Editable />
-    </Slate>
+    <Editor value={value} onChange={(options) => setValue(options.value)} />
   );
 };
-export default App;
