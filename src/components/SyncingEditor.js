@@ -1,14 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Editor } from 'slate-react';
+import { Value } from 'slate';
 import initialValue from '../util/initialValue';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:4000');
+const ENDPOINT = 'http://localhost:4000';
+const socket = io(ENDPOINT);
 
 // example provdided by slate.js for syncing editors
 // https://github.com/ianstormtaylor/slate/blob/v0.47/examples/syncing-operations/index.js line 236
 
-export const SyncingEditor = () => {
+export const SyncingEditor = ({ groupId }) => {
   const [value, setValue] = useState(initialValue);
 
   const id = useRef(`${Date.now()}`);
@@ -16,8 +18,14 @@ export const SyncingEditor = () => {
   const remote = useRef(false);
 
   useEffect(() => {
+    fetch(`${ENDPOINT}/groups/${groupId}`)
+      .then((data) => data.json())
+      .then((value) => setValue(Value.fromJSON(value)))
+      .catch((err) => alert(err.message));
+
+    const eventName = `new-remote-operations-${groupId}`;
     // listen for new-remote-operations event from server and apply changes to other editors
-    socket.on('new-remote-operations', ({ changedEditorId, ops }) => {
+    socket.on(eventName, ({ changedEditorId, ops }) => {
       if (id.current !== changedEditorId) {
         // needed to prevent onChange event from emitting another operations event when applyOperation is called
         remote.current = true;
@@ -26,6 +34,8 @@ export const SyncingEditor = () => {
         remote.current = false;
       }
     });
+
+    return () => socket.off(eventName);
   }, []);
 
   return (
@@ -54,6 +64,8 @@ export const SyncingEditor = () => {
           socket.emit('new-operations', {
             changedEditorId: id.current,
             ops: JSON.stringify(ops),
+            value: options.value.toJSON(),
+            groupId,
           });
         }
       }}
@@ -64,5 +76,6 @@ export const SyncingEditor = () => {
 const style = {
   backgroundColor: 'lightgrey',
   width: '80vw',
-  height: '30vh',
+  height: '40vh',
+  overflowY: 'scroll',
 };

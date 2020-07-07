@@ -1,17 +1,17 @@
 // Import React!
 import React from 'react';
-import { SyncingEditor } from './components/SyncingEditor';
+import { Group } from './components/Group';
+import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 
 export const App = () => {
   return (
-    <div style={style}>
-      <SyncingEditor />
-    </div>
+    <BrowserRouter>
+      <Route exact path="/">
+        <Redirect to={`/groups/${Date.now()}`} />
+      </Route>
+      <Route exact path="/groups/:groupId">
+        <Group />
+      </Route>
+    </BrowserRouter>
   );
-};
-
-const style = {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
 };
