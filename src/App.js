@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useMemo, useState } from 'react';
+import { createEditor } from 'slate';
+import { Slate, Editable, withReact } from 'slate-react';
+
 import './App.css';
 
-function App() {
+const App = () => {
+  // Create a Slate editor object that won't change across renders.
+  const editor = useMemo(() => withReact(createEditor()), []);
+  // Keep track of state for the value of the editor.
+  const [value, setValue] = useState([
+    {
+      type: 'paragraph',
+      children: [{ text: 'Replace Text :)' }],
+    },
+  ]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    // slate context provider for children components
+    <Slate
+      editor={editor}
+      value={value}
+      onChange={(newValue) => setValue(newValue)}>
+      <Editable />
+    </Slate>
   );
-}
-
+};
 export default App;
