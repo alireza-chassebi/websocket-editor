@@ -248,6 +248,7 @@ export const SyncingEditor = ({ groupId }) => {
         {renderBlockButton('bulleted-list', 'Buletted List')}
       </div>
       <Editor
+        autoFocus
         placeholder="Enter some text"
         ref={editor}
         style={styles.editor}
@@ -256,6 +257,7 @@ export const SyncingEditor = ({ groupId }) => {
         onKeyDown={onKeyDown}
         renderBlock={renderBlock}
         renderMark={renderMark}
+        onBlur={() => {}} // remove default onBlur func provided by slate
       />
     </>
   );
