@@ -6,18 +6,20 @@ export const Group = () => {
   const { groupId } = useParams();
   return (
     <div style={styles.container}>
-      <h3>Group: {groupId}</h3>
-      <div style={styles.editorWrapper}>
-        <SyncingEditor groupId={groupId} />
-      </div>
+      <h3 style={styles.groupHeader}>Group: {groupId}</h3>
+      <SyncingEditor groupId={groupId} />
     </div>
   );
 };
 
 const styles = {
+  groupHeader: {
+    margin: '40px 0',
+  },
   container: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    margin: '0 10vw',
   },
 };

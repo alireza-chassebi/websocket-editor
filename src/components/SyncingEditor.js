@@ -263,10 +263,15 @@ export const SyncingEditor = ({ groupId }) => {
 
 const styles = {
   container: {},
-  toolbar: {},
+  toolbar: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    margin: '0 0 20px 0',
+  },
   editor: {
     backgroundColor: 'lightgrey',
-    width: '80vw',
+    width: '100%',
     height: '60vh',
     overflowY: 'scroll',
   },
