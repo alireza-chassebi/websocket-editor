@@ -6,7 +6,7 @@ export const Group = () => {
   const { groupId } = useParams();
   return (
     <div style={styles.container}>
-      <h1>Group: {groupId}</h1>
+      <h3>Group: {groupId}</h3>
       <div style={styles.editorWrapper}>
         <SyncingEditor groupId={groupId} />
       </div>
