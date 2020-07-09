@@ -5,6 +5,8 @@ import initialValue from '../util/initialValue';
 import io from 'socket.io-client';
 
 const ENDPOINT = 'http://localhost:4000';
+
+// create birdirectional connection between server and client
 const socket = io(ENDPOINT);
 
 // example provdided by slate.js for syncing editors
@@ -24,7 +26,7 @@ export const SyncingEditor = ({ groupId }) => {
       .catch((err) => alert(err.message));
 
     const eventName = `new-remote-operations-${groupId}`;
-    // listen for new-remote-operations event from server and apply changes to other editors
+    // listen for new-remote-operations event from server and apply changes to other editors in the group
     socket.on(eventName, ({ changedEditorId, ops }) => {
       if (id.current !== changedEditorId) {
         // needed to prevent onChange event from emitting another operations event when applyOperation is called

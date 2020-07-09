@@ -22,15 +22,22 @@ let initialEditorValue = {
   },
 };
 
-const groupData = {};
+// could potentially add persistence since too many concurrent users would deplete the RAM and make the app crash
+let groupData = {};
+// since there is no persistence clear groupData every 6 hours
+const clearDataInterval = 60000 * 60 * 6;
 
-// sockets
+setInterval(() => {
+  groupData = {};
+}, clearDataInterval);
+
+// websockets
 
 io.on('connection', (socket) => {
   // listen for new-operations event emitted from an editor
   socket.on('new-operations', (data) => {
     groupData[data.groupId] = data.value;
-    // emit new-remote-operations to all editors
+    // emit new-remote-operations to all editors in specific group
     io.emit(`new-remote-operations-${data.groupId}`, data);
   });
 });
