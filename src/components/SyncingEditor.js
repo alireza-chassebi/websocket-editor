@@ -32,13 +32,13 @@ export const SyncingEditor = ({ groupId }) => {
         // needed to prevent onChange event from emitting another operations event when applyOperation is called
         remote.current = true;
         // copy changes from changed editor
-        JSON.parse(ops).forEach((op) => editor.current.applyOperation(op));
+        ops.forEach((op) => editor.current.applyOperation(op));
         remote.current = false;
       }
     });
 
     return () => socket.off(eventName);
-  }, []);
+  }, [groupId]);
 
   return (
     <Editor
@@ -65,7 +65,7 @@ export const SyncingEditor = ({ groupId }) => {
         if (ops.length && !remote.current) {
           socket.emit('new-operations', {
             changedEditorId: id.current,
-            ops: JSON.stringify(ops),
+            ops: ops,
             value: options.value.toJSON(),
             groupId,
           });
