@@ -6,7 +6,6 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
-    "cors": "^2.8.5",
     "express": "^4.17.1",
     "immutable": "^4.0.0-rc.12",
     "is-hotkey": "^0.1.6",
@@ -40,5 +39,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cors": "^2.8.5"
   }
 }

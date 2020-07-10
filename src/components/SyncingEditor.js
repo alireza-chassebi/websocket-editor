@@ -5,10 +5,9 @@ import initialValue from '../util/initialValue';
 import io from 'socket.io-client';
 import { isKeyHotkey } from 'is-hotkey';
 import { Button } from './Button';
+import ENDPOINT from '../api';
 
-const ENDPOINT = 'http://localhost:4000';
-
-// create birdirectional connection between server and client
+// request birdirectional connection between server and client
 const socket = io(ENDPOINT);
 
 // example provdided by slate.js for syncing editors
@@ -30,7 +29,7 @@ export const SyncingEditor = ({ groupId }) => {
   const remote = useRef(false);
 
   useEffect(() => {
-    fetch(`${ENDPOINT}/groups/${groupId}`)
+    fetch(`${ENDPOINT}/api/groups/${groupId}`)
       .then((data) => data.json())
       .then((value) => setValue(Value.fromJSON(value)))
       .catch((err) => alert(err.message));

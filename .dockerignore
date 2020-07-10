@@ -1,4 +1,5 @@
 .gitignore
 docker-compose.yml
 Dockerfile
-Dockerfile.dev
+Dockerfile.client.dev
+Dockerfile.server.dev

@@ -3,7 +3,6 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const path = require('path');
-const cors = require('cors');
 
 let initialEditorValue = {
   document: {
@@ -44,31 +43,30 @@ io.on('connection', (socket) => {
 
 // http
 
-//middleware
-app.use(
-  cors({
-    origin: 'http://localhost:3000',
-  })
-);
+// cors middleware needed in development
+if (process.env.NODE_ENV === 'development') {
+  const cors = require('cors');
+  app.use(
+    cors({
+      origin: 'http://localhost:3000',
+    })
+  );
+}
+
 app.use(express.static(path.join(__dirname, 'build')));
 
-app.get('/', (_, res) => {
-  // try {
-  //   res.sendFile(path.join(__dirname, 'build', 'index.html'));
-  // } catch (error) {
-  //   res.send(error.message);
-  // }
-  res.send('<h1>hi</h1>');
-});
-
-app.get('/groups/:id', (req, res) => {
+app.get('/api/groups/:id', (req, res) => {
   const { id } = req.params;
   if (!(id in groupData)) groupData[id] = initialEditorValue;
   res.send(groupData[id]);
 });
 
-app.get('*', (_, res) => {
-  res.redirect('/');
+app.get('/*', (_, res) => {
+  try {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  } catch (error) {
+    res.send(error.message);
+  }
 });
 
 const PORT = process.env.PORT || 4000;
