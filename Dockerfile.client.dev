@@ -3,5 +3,5 @@ WORKDIR '/app'
 COPY ./package*.json ./
 RUN npm install
 COPY ./ ./
-RUN rm -rf server.js
+RUN rm -rf server
 CMD ["npm" , "run" , "start"]

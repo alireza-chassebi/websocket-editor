@@ -176,8 +176,7 @@ export const SyncingEditor = ({ groupId }) => {
       return next();
     }
 
-    event.preventDefault();
-    editor.current.toggleMark(mark);
+    onClickMark(event, mark);
   };
 
   // when a mark button is clicked , toggle the current mark

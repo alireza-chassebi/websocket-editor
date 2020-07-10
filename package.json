@@ -6,7 +6,6 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
-    "express": "^4.17.1",
     "immutable": "^4.0.0-rc.12",
     "is-hotkey": "^0.1.6",
     "react": "^16.13.1",
@@ -15,11 +14,9 @@
     "react-scripts": "3.4.1",
     "slate": "^0.47.3",
     "slate-react": "^0.22.3",
-    "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0"
   },
   "scripts": {
-    "serve": "node server.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -39,8 +36,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "cors": "^2.8.5"
   }
 }

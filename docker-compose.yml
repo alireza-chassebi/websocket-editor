@@ -13,7 +13,7 @@ services:
       - ./:/app
   server:
     build:
-      context: .
+      context: ./server
       dockerfile: Dockerfile.server.dev
     environment:
       - NODE_ENV=development

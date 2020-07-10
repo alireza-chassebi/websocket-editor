@@ -2,4 +2,4 @@
 docker-compose.yml
 Dockerfile
 Dockerfile.client.dev
-Dockerfile.server.dev
+./server/Dockerfile.server.dev
