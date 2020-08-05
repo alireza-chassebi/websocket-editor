@@ -89,3 +89,7 @@ To teardown the production app do the following:
 ```
 
    <br />
+  
+## Preview
+
+![](websocket-editor.gif)
